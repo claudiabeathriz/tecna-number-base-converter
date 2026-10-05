@@ -6,6 +6,10 @@ import NumberInput from "./components/NumberInput";
 import { convertNumber } from "./utils/convertNumber";
 import { validateNumber } from "./utils/validateNumber";
 
+import type { BitWidth } from "./utils/bitWidth";
+import { toTwosComplement } from "./utils/toTwosComplement";
+import { parseNumber } from "./utils/parseNumber";
+
 import "./App.css";
 import "./index.css";
 
@@ -20,6 +24,12 @@ function App() {
 
   const [conversionCount, setConversionCount] = useState(0);
 
+  const [representation, setRepresentation] = useState<
+    "standard" | "twos-complement"
+  >("standard");
+
+  const [bitWidth, setBitWidth] = useState<BitWidth>(8);
+
   function handleConvert(event: FormEvent) {
     event.preventDefault();
 
@@ -33,9 +43,18 @@ function App() {
 
     setError("");
 
-    const convertedValue = convertNumber(inputValue, fromBase, toBase);
+    let convertedValue: string;
+
+    if (representation === "twos-complement" && toBase === 2) {
+      const decimalValue = parseNumber(inputValue, fromBase);
+
+      convertedValue = toTwosComplement(decimalValue, bitWidth);
+    } else {
+      convertedValue = convertNumber(inputValue, fromBase, toBase);
+    }
 
     setResult(convertedValue);
+
     setConversionCount((count) => count + 1);
   }
 
@@ -144,6 +163,45 @@ function App() {
             </div>
           </div>
 
+          {/* REPRESENTATION */}
+          <div className="representation-controls">
+            <label>REPRESENTATION</label>
+
+            <select
+              value={representation}
+              onChange={(event) =>
+                setRepresentation(
+                  event.target.value as "standard" | "twos-complement",
+                )
+              }
+            >
+              <option value="standard">Standard</option>
+
+              <option value="twos-complement">Two's Complement</option>
+            </select>
+
+            {representation === "twos-complement" && (
+              <>
+                <label>BIT WIDTH</label>
+
+                <select
+                  value={bitWidth}
+                  onChange={(event) =>
+                    setBitWidth(Number(event.target.value) as BitWidth)
+                  }
+                >
+                  <option value={8}>8 bits</option>
+
+                  <option value={16}>16 bits</option>
+
+                  <option value={32}>32 bits</option>
+
+                  <option value={64}>64 bits</option>
+                </select>
+              </>
+            )}
+          </div>
+
           {/* TO */}
           <div className="input-group">
             <label>
@@ -165,7 +223,6 @@ function App() {
           {/* CONVERT */}
           <button type="submit" className="convert-button">
             <span>CONVERT</span>
-
             <span className="button-arrow">→</span>
           </button>
         </form>

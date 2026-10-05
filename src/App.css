@@ -1116,3 +1116,46 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+.representation-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.representation-controls label {
+  display: block;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #b8ffdf;
+}
+
+.representation-controls select {
+  width: 100%;
+  padding: 12px 14px;
+
+  border: 1px solid rgba(111, 255, 193, 0.35);
+  border-radius: 10px;
+
+  background: rgba(12, 16, 20, 0.9);
+  color: #f8f5ff;
+
+  font-family: "Space Mono", monospace;
+  font-size: 0.8rem;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.representation-controls select:focus {
+  border-color: #6fffc1;
+  box-shadow: 0 0 16px rgba(111, 255, 193, 0.25);
+}
+
+.representation-controls option {
+  background: #111016;
+  color: #f8f5ff;
+}
