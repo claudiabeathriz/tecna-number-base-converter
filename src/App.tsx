@@ -6,6 +6,9 @@ import NumberInput from "./components/NumberInput";
 import { convertNumber } from "./utils/convertNumber";
 import { validateNumber } from "./utils/validateNumber";
 
+import "./App.css";
+import "./index.css";
+
 function App() {
   const [fromBase, setFromBase] = useState(10);
   const [toBase, setToBase] = useState(2);
